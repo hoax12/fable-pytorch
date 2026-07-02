@@ -8,8 +8,11 @@ from __future__ import annotations
 import os
 import nbformat as nbf
 
-GITHUB_REPO = os.environ.get("FORGE_GITHUB_REPO", "your-username/tensor-forge")
+GITHUB_REPO = os.environ.get("FORGE_GITHUB_REPO", "hoax12/fable-pytorch")
 GITHUB_BRANCH = os.environ.get("FORGE_GITHUB_BRANCH", "main")
+# Path to the notebooks folder *as it exists in the GitHub repo* — override if your repo
+# layout differs from your local folder name (e.g. you renamed fable_folder -> fable-pytorch).
+GITHUB_NB_SUBDIR = os.environ.get("FORGE_GITHUB_SUBDIR", "fable-pytorch")
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NB_DIR = os.path.join(REPO_ROOT, "notebooks")
@@ -26,7 +29,7 @@ def code(src: str) -> nbf.NotebookNode:
 def header(filename: str, act: str, number: str, title: str, tagline: str,
            prev: str | None = None, nxt: str | None = None) -> nbf.NotebookNode:
     url = (f"https://colab.research.google.com/github/{GITHUB_REPO}/blob/"
-           f"{GITHUB_BRANCH}/fable_folder/notebooks/{filename}")
+           f"{GITHUB_BRANCH}/{GITHUB_NB_SUBDIR}/notebooks/{filename}")
     badge = f"[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]({url})"
     nav = []
     if prev:
