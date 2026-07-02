@@ -43,10 +43,11 @@ and sidesteps your machine's broken `torchvision` entirely.
 ### On Google Colab (for cranking up scale)
 
 1. Push this folder to GitHub.
-2. Point the badges at your repo and rebuild:
+2. Point the badges at your repo and rebuild (only needed if you fork or rename):
    ```powershell
-   $env:FORGE_GITHUB_REPO="your-user/your-repo"; python tools/build_all.py
+   python tools/set_colab_repo.py hoax12/fable-pytorch main
    ```
+   Default badges already target `github.com/hoax12/fable-pytorch` → `notebooks/` at repo root.
 3. Open any notebook via its **Open in Colab** badge → `Runtime → Change runtime type → GPU`.
 4. Find the scale knobs (`STEPS`, `EPOCHS` — always marked with 🔼) and crank them.
 

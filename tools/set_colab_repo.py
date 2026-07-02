@@ -9,8 +9,8 @@ folder name (or to the repo root, in which case pass "").
 
 Examples:
     python tools/set_colab_repo.py hoax12/fable-pytorch
-    python tools/set_colab_repo.py hoax12/fable-pytorch main fable-pytorch
-    python tools/set_colab_repo.py hoax12/tensor-forge main ""   # notebooks/ at repo root
+    python tools/set_colab_repo.py hoax12/fable-pytorch main
+    python tools/set_colab_repo.py hoax12/fable-pytorch main fable-pytorch   # if notebooks live in a subfolder
 """
 import os
 import sys
@@ -22,7 +22,7 @@ if len(sys.argv) < 2:
 
 repo = sys.argv[1]
 branch = sys.argv[2] if len(sys.argv) > 2 else "main"
-subdir = sys.argv[3] if len(sys.argv) > 3 else "fable-pytorch"
+subdir = sys.argv[3] if len(sys.argv) > 3 else ""
 
 env = os.environ.copy()
 env["FORGE_GITHUB_REPO"] = repo

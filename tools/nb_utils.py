@@ -10,9 +10,9 @@ import nbformat as nbf
 
 GITHUB_REPO = os.environ.get("FORGE_GITHUB_REPO", "hoax12/fable-pytorch")
 GITHUB_BRANCH = os.environ.get("FORGE_GITHUB_BRANCH", "main")
-# Path to the notebooks folder *as it exists in the GitHub repo* — override if your repo
-# layout differs from your local folder name (e.g. you renamed fable_folder -> fable-pytorch).
-GITHUB_NB_SUBDIR = os.environ.get("FORGE_GITHUB_SUBDIR", "fable-pytorch")
+# Parent folder of notebooks/ *in the GitHub repo*. Empty string = notebooks/ at repo root
+# (hoax12/fable-pytorch/notebooks/...). Set only if you pushed under a subfolder.
+GITHUB_NB_SUBDIR = os.environ.get("FORGE_GITHUB_SUBDIR", "")
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NB_DIR = os.path.join(REPO_ROOT, "notebooks")
@@ -26,10 +26,15 @@ def code(src: str) -> nbf.NotebookNode:
     return nbf.v4.new_code_cell(src.strip("\n"))
 
 
+def colab_notebook_url(filename: str) -> str:
+    nb_path = f"{GITHUB_NB_SUBDIR}/notebooks/{filename}" if GITHUB_NB_SUBDIR else f"notebooks/{filename}"
+    return (f"https://colab.research.google.com/github/{GITHUB_REPO}/blob/"
+            f"{GITHUB_BRANCH}/{nb_path}")
+
+
 def header(filename: str, act: str, number: str, title: str, tagline: str,
            prev: str | None = None, nxt: str | None = None) -> nbf.NotebookNode:
-    url = (f"https://colab.research.google.com/github/{GITHUB_REPO}/blob/"
-           f"{GITHUB_BRANCH}/{GITHUB_NB_SUBDIR}/notebooks/{filename}")
+    url = colab_notebook_url(filename)
     badge = f"[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]({url})"
     nav = []
     if prev:
